@@ -11,12 +11,13 @@ class States:
 
 
 states = []
-cities = dict
-
+total_uf = 0
+cities = {}
 
 def get_states():
     browser.get("https://www.climatempo.com.br/climatologia/2/santos-sp")
     total_uf = browser.execute_script("return document.getElementById('sel-state-geo').length")
+    print(total_uf)
     for object in range(total_uf):
         states.append(
             browser.execute_script('return document.getElementById("sel-state-geo").options[%d].value;' % object))
@@ -27,16 +28,17 @@ def get_states():
 def get_cities():
     browser.get("https://www.climatempo.com.br/climatologia/2/santos-sp")
     for object in states:
-        print(object)
         browser.execute_script("$('#sel-state-geo').val('%s').change()" % object)
-        time.sleep(4000)
+        time.sleep(10)
         total_city = browser.execute_script("return document.getElementById('sel-city-geo').length")
-        for object in range(total_city):
-            print(total_city)
+        print("============================ESTADO: %s =============================" % object)
+        print(total_city)
+        print("\n \n \n")
+        for city in range(total_city):
             city_id = browser.execute_script(
-                'return document.getElementById("sel-city-geo").options[%d].value;' % object)
+                'return document.getElementById("sel-city-geo").options[%d].value;' % city)
             city_name = browser.execute_script(
-                'return document.getElementById("sel-city-geo").options[%d].text;' % object)
-            print(city_name, city_id)
-            cities.update(city_id, city_name)
+                'return document.getElementById("sel-city-geo").options[%d].text;' % city)
+            cities[city_id] = city_name
+    print(cities.values())
     return cities
