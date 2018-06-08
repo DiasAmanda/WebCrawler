@@ -1,5 +1,6 @@
 from selenium import webdriver
 import time
+# -*- coding: utf-8 -*-
 
 browser = webdriver.Chrome("C:\Users\Amandinha\PycharmProjects\WebCrawler\Drivers\chromedriver.exe")
 
@@ -9,10 +10,10 @@ class States:
     def __init__(self):
         pass
 
-
 states = []
 total_uf = 0
 cities = {}
+
 
 def get_states():
     browser.get("https://www.climatempo.com.br/climatologia/2/santos-sp")
@@ -27,11 +28,11 @@ def get_states():
 
 def get_cities():
     browser.get("https://www.climatempo.com.br/climatologia/2/santos-sp")
-    for object in states:
-        browser.execute_script("$('#sel-state-geo').val('%s').change()" % object)
+    for state in states:
+        browser.execute_script("$('#sel-state-geo').val('%s').change()" % state)
         time.sleep(10)
         total_city = browser.execute_script("return document.getElementById('sel-city-geo').length")
-        print("============================ESTADO: %s =============================" % object)
+        print("============================ESTADO: %s =============================" % state)
         print(total_city)
         print("\n \n \n")
         for city in range(total_city):
@@ -40,5 +41,6 @@ def get_cities():
             city_name = browser.execute_script(
                 'return document.getElementById("sel-city-geo").options[%d].text;' % city)
             cities[city_id] = city_name
+            print(city_name)
     print(cities.values())
     return cities
