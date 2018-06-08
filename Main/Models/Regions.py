@@ -5,14 +5,16 @@ import time
 browser = webdriver.Chrome("C:\Users\Amandinha\PycharmProjects\WebCrawler\Drivers\chromedriver.exe")
 
 
-class States:
+class Regions:
 
     def __init__(self):
         pass
 
+
 states = []
 total_uf = 0
 cities = {}
+sample = []
 
 
 def get_states():
@@ -38,9 +40,11 @@ def get_cities():
         for city in range(total_city):
             city_id = browser.execute_script(
                 'return document.getElementById("sel-city-geo").options[%d].value;' % city)
-            city_name = browser.execute_script(
+            city_uf = browser.execute_script(
                 'return document.getElementById("sel-city-geo").options[%d].text;' % city)
-            cities[city_id] = city_name
-            print(city_name)
-    print(cities.values())
+            city_uf = city_uf + ',' + state
+            cities[city_id] = city_uf
     return cities
+
+get_states()
+get_cities()

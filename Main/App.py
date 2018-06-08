@@ -1,5 +1,11 @@
-from Main.Models.Regions import get_states
-from Main.Models.Regions import get_cities
+from Main.Models.Regions import *
+from Main.Builders.UrlBuilder import *
 
 get_states()
-get_cities()
+sample = get_cities()
+
+for region in sample.items():
+    url_builder(region.values(),region.keys(),region.values())
+
+
+
