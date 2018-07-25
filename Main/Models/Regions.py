@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 from selenium import webdriver
 import time
-# -*- coding: utf-8 -*-
+
 
 browser = webdriver.Chrome("C:\Users\Amandinha\PycharmProjects\WebCrawler\Drivers\chromedriver.exe")
 
@@ -14,7 +16,8 @@ class Regions:
 states = []
 total_uf = 0
 cities = {}
-sample = []
+state_dict = {}
+
 
 
 def get_states():
@@ -40,11 +43,30 @@ def get_cities():
         for city in range(total_city):
             city_id = browser.execute_script(
                 'return document.getElementById("sel-city-geo").options[%d].value;' % city)
-            city_uf = browser.execute_script(
+            city_name = browser.execute_script(
                 'return document.getElementById("sel-city-geo").options[%d].text;' % city)
-            city_uf = city_uf + ',' + state
-            cities[city_id] = city_uf
-    return cities
+            cities[city_id] = city_name
+            print(cities)
+            state_dict = { state : cities }
+            if len(cities) > 99:
+                return
+    return state_dict
+
+
+def call_urlbuilder():
+    i = 0
+    # for item in state_dict:
+    inner_dict = state_dict[cities][0]
+    print(inner_dict['city_name'][i])
+    print('\n')
+    print(inner_dict['city_id'][i])
+    print('\n')
+    print(inner_dict.keys[i])
+    print('\n')
+    # url_builder(dic_item['city_name'][i],dic_item['city_id'][i],dic_item.keys()[i])
+    i += 1
+
 
 get_states()
 get_cities()
+call_urlbuilder()
